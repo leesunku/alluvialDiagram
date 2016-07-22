@@ -1,0 +1,1349 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Alluvial Diagram</title>
+    <script type="text/javascript" src="d3.js"></script>
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <style type="text/css">
+body {
+    margin: 1em;
+}
+.link {
+  fill: none;
+/*   stroke: ;
+  opacity: .0; */
+}
+.link.on {
+  stroke: gold;
+  opacity: .9;
+}
+.node.on {
+stroke: gold;
+  opacity: .4;
+}
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+    
+/* Make Fake Data */
+var realData = {  
+		   "categorySetname":"SM",
+		   "header":[  
+		      "date",
+		      "포켓몬",
+		      "속초",
+		      "게임",
+		      "한국",
+		      "go",
+		      "사람들",
+		      "증강현실",
+		      "미국",
+		      "열풍",
+		      "포켓몬go",
+		      "구글",
+		      "몬스터",
+		      "왜",
+		      "서비스",
+		      "인기",
+		      "지역",
+		      "포켓",
+		      "길",
+		      "피카츄",
+		      "시장",
+		      "스마트폰",
+		      "일본",
+		      "기술",
+		      "캐릭터",
+		      "모바일",
+		      "닌텐도",
+		      "개",
+		      "위치",
+		      "뉴스",
+		      "앱"
+		   ],
+		   "totalFrequency":[  
+		      "0",
+		      "2186",
+		      "1023",
+		      "955",
+		      "632",
+		      "562",
+		      "518",
+		      "501",
+		      "460",
+		      "384",
+		      "384",
+		      "354",
+		      "353",
+		      "337",
+		      "331",
+		      "326",
+		      "318",
+		      "304",
+		      "303",
+		      "285",
+		      "273",
+		      "272",
+		      "259",
+		      "258",
+		      "253",
+		      "250",
+		      "249",
+		      "238",
+		      "223",
+		      "220",
+		      "220"
+		   ],
+		   "transitions":[  
+		      {  
+		         "date":"20160715",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"509"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"290"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"230"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"168"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"141"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"140"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"131"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"121"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"109"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"104"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"101"
+		            },
+		            {  
+		               "keyword":"지역",
+		               "frequency":"97"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"91"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"88"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"86"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"85"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"83"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"80"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"71"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"70"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"69"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"68"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"68"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"63"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"61"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"61"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"60"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"59"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"59"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"56"
+		            }
+		         ]
+		      },
+		      {  
+		         "date":"20160716",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"312"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"168"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"135"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"86"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"83"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"82"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"70"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"66"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"63"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"60"
+		            },
+		            {  
+		               "keyword":"지역",
+		               "frequency":"58"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"54"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"50"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"49"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"46"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"46"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"40"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"39"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"38"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"38"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"36"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"36"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"35"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"34"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"31"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"31"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"27"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"26"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"0"
+		            }
+		         ]
+		      },
+		      {  
+		         "date":"20160717",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"298"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"131"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"115"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"80"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"73"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"73"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"66"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"64"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"57"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"54"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"53"
+		            },
+		            {  
+		               "keyword":"지역",
+		               "frequency":"47"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"46"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"46"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"43"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"42"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"41"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"35"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"35"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"31"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"31"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"29"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"29"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"27"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"25"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"24"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"21"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"0"
+		            }
+		         ]
+		      },
+		      {  
+		         "date":"20160718",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"371"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"177"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"161"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"109"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"100"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"93"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"91"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"79"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"69"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"68"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"67"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"56"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"54"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"54"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"52"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"50"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"50"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"50"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"50"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"49"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"49"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"49"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"45"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"43"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"40"
+		            },
+		            {  
+		               "keyword":"지역",
+		               "frequency":"38"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"38"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"0"
+		            }
+		         ]
+		      },
+		      {  
+		         "date":"20160719",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"324"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"135"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"131"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"101"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"80"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"76"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"65"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"60"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"54"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"52"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"51"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"49"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"47"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"47"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"47"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"46"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"46"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"44"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"44"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"44"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"43"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"42"
+		            },
+		            {  
+		               "keyword":"지역",
+		               "frequency":"41"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"38"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"38"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"34"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"34"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"33"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"32"
+		            }
+		         ]
+		      },
+		      {  
+		         "date":"20160720",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"254"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"115"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"101"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"68"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"67"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"62"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"57"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"55"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"51"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"50"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"48"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"45"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"44"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"39"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"38"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"37"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"36"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"33"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"33"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"33"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"31"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"31"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"30"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"29"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"27"
+		            },
+		            {  
+		               "keyword":"지역",
+		               "frequency":"24"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"22"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"21"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"0"
+		            }
+		         ]
+		      },
+		      {  
+		         "date":"20160721",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"118"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"48"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"41"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"31"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"27"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"25"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"22"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"20"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"20"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"18"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"17"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"17"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"16"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"16"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"14"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"14"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"14"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"13"
+		            },
+		            {  
+		               "keyword":"지역",
+		               "frequency":"13"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"13"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"13"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"12"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"12"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"12"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"11"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"10"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"0"
+		            }
+		         ]
+		      },
+		      {  
+		         "date":"20160722",
+		         "keywordNfrequency":[  
+		            {  
+		               "keyword":"지역",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"포켓몬",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"게임",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"한국",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"go",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"사람들",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"증강현실",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"미국",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"열풍",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"포켓몬go",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"구글",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"몬스터",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"왜",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"서비스",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"인기",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"속초",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"포켓",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"길",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"피카츄",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"시장",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"스마트폰",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"일본",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"기술",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"캐릭터",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"모바일",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"닌텐도",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"개",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"위치",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"뉴스",
+		               "frequency":"0"
+		            },
+		            {  
+		               "keyword":"앱",
+		               "frequency":"0"
+		            }
+		         ]
+		      }
+		   ]
+		}
+var colorList = [
+                 
+                 
+                 ];
+var transitions = realData.transitions;
+
+var data = {};
+var timesDataArray = new Array();
+for (var i = 0; i < transitions.length; i++){
+	var TimesData = {};
+	var dataArray = new Array();
+	var keywordNfrequency = transitions[i].keywordNfrequency.sort(frequencyOrdering);
+	for (var j = 0; j < keywordNfrequency.length; j++){
+		var item = {};
+		item.id = transitions[i].date + "_" + keywordNfrequency[j].keyword;
+		item.nodeName = keywordNfrequency[j].keyword;
+		item.nodeFrequency = keywordNfrequency[j].frequency;
+		item.nodeValue = 1;
+		item.incoming = [];
+		dataArray.push(item);
+	}
+	timesDataArray.push(dataArray);
+}
+var frequencyOrdering = function(a, b) {
+    return (b.frequency - a.frequency);
+};
+data.times = timesDataArray;
+
+var linksDataArray = new Array();
+
+for (var i = 0 ; i < timesDataArray.length; i++){ // 7
+	if (typeof transitions[i+1] != 'undefined'){
+		for (var j = 0 ; j < timesDataArray[i].length; j++){ // 30
+			for (var k = 0; k < timesDataArray[i].length; k++){ // 30
+				if (timesDataArray[i][j].nodeName == timesDataArray[i+1][k].nodeName){
+					var item = {};
+					item.source = timesDataArray[i][j].id;
+					item.target = timesDataArray[i+1][k].id;
+					item.nodeName = timesDataArray[i][j].nodeName;
+					item.value = 1;
+					linksDataArray.push(item);
+				}
+			}
+		}
+	}
+} 
+
+data.links = linksDataArray;
+	/* Process Data */
+// make a node lookup map
+var nodeMap = (function() {
+    var nm = {};
+    data.times.forEach(function(nodes) {
+        nodes.forEach(function(n) {
+            nm[n.id] = n;
+            // add links and assure node value
+            n.links = [];
+            n.incoming = [];
+            n.nodeValue = n.nodeValue || 0;
+        })
+    });
+    return nm;
+})();
+// attach links to nodes
+data.links.forEach(function(link) {
+    nodeMap[link.source].links.push(link);
+    nodeMap[link.target].incoming.push(link);
+});
+    
+// sort by value and calculate offsets
+data.times.forEach(function(nodes) {
+    var cumValue = 0;
+    nodes.sort(function(a,b) {
+        return d3.descending(a.nodeValue, b.nodeValue)
+    });
+    nodes.forEach(function(n, i) {
+        n.order = i;
+        n.offsetValue = cumValue;
+        cumValue += n.nodeValue;
+        // same for links
+        var lCumValue;
+        // outgoing
+        if (n.links) {
+            lCumValue = 0;
+            n.links.sort(function(a,b) {
+                return d3.descending(a.value, b.value)
+            });
+            n.links.forEach(function(l) {
+                l.outOffset = lCumValue;
+                lCumValue += l.value;
+            });
+        }
+        // incoming
+        if (n.incoming) {
+            lCumValue = 0;
+            n.incoming.sort(function(a,b) {
+                return d3.descending(a.value, b.value)
+            });
+            n.incoming.forEach(function(l) {
+                l.inOffset = lCumValue;
+                lCumValue += l.value;
+            });
+        }
+    })
+});
+data = data.times;
+// calculate maxes
+var maxn = d3.max(data, function(t) { return t.length }),
+    maxv = d3.max(data, function(t) { return d3.sum(t, function(n) { return n.nodeValue }) });
+/* Make Vis */
+    
+// settings and scales
+var w = 2000,
+    h = 1200,
+    gapratio = .7,
+    delay = 0,
+    padding = 15,
+    x = d3.scale.ordinal()
+        .domain(d3.range(data.length))
+        .rangeBands([0, w + (w/(data.length-1))], gapratio),
+    y = d3.scale.linear()
+        .domain([0, maxv])
+        .range([0, h - padding * maxn]),
+    line = d3.svg.line()
+        .interpolate('basis');
+        
+// root
+var vis = d3.select("body")
+  .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h);
+    
+    
+var t = 0;
+function update(first) {
+    // update data
+    var currentData = data.slice(0, ++t);
+    
+    // time slots
+    var times = vis.selectAll('g.time')
+        .data(currentData)
+      .enter().append('svg:g')
+        .attr('class', 'time')
+        .attr("transform", function(d, i) { return "translate(" + (x(i) - x(0)) + ",0)" });
+        
+    // node bars
+    var nodes = times.selectAll('g.node')
+        .data(function(d) { return d })
+      .enter().append('svg:g')
+        .attr('class', 'node');
+    
+    setTimeout(function() {
+        nodes.append('svg:rect')
+        	.attr('data', function(l) { return l.nodeName })
+            .attr('fill', 'gold')
+            .attr('y', function(n, i) {
+                return y(n.offsetValue) + i * padding;
+            })
+            .attr('width', x.rangeBand())
+            .attr('height', function(n) { return y(n.nodeValue) })
+            
+            .append('svg:title')
+            .text(function(n) { return n.nodeName });
+        /* node text setting */
+        nodes.append('svg:text')
+        	.attr('font-size', 15)
+            .attr('y', function(n, i) {
+                return y(n.offsetValue) + i * padding + 15;
+            })
+            .on('mouseover', function(n) {
+            	$('svg').find('path').each(function(i,e){
+           			if( $(e).attr('data')== n.nodeName ) $(e).attr('class', 'link on')
+           		});
+            	$('svg').find('rect').attr('class', 'node on')
+            	$('svg').find('rect').each(function(i,e){
+           			if( $(e).attr('data')== n.nodeName ) $(e).attr('class', 'node')
+           		});
+	        })
+	        .on('mouseout', function() {
+	        	// mouseout
+            	$('svg').find('path').attr('class', 'link')
+            	$('svg').find('rect').attr('class', 'node')
+	        })
+        	.attr('fill', 'blue')
+        	.text(function(n) { return n.nodeName/*  + " - " + n.nodeFrequency */ });
+        
+    }, (first ? 0 : delay));
+        
+    var linkLine = function(start) {
+        return function(l) {
+            var source = nodeMap[l.source],
+                target = nodeMap[l.target],
+                gapWidth = x(0),
+                bandWidth = x.rangeBand() + gapWidth,
+                startx = x.rangeBand() - bandWidth,
+                sourcey = y(source.offsetValue) + 
+                    source.order * padding +
+                    y(l.outOffset) +
+                    y(l.value)/2,
+                targety = y(target.offsetValue) + 
+                    target.order * padding + 
+                    y(l.inOffset) +
+                    y(l.value)/2,
+                points = start ? 
+                    [
+                        [ startx, sourcey ], [ startx, sourcey ], [ startx, sourcey ], [ startx, sourcey ] 
+                    ] :
+                    [
+                        [ startx, sourcey ],
+                        [ startx + gapWidth/2, sourcey ],
+                        [ startx + gapWidth/2, targety ],
+                        [ 0, targety ]
+                    ];
+            return line(points);
+        }
+    }
+        
+    // links
+    var links = nodes.selectAll('path.link')
+        .data(function(n) { return n.incoming || [] })
+        .enter().append('svg:path')
+        .attr('class', 'link')
+        .attr('data', function(l) { return l.nodeName })
+        .style('stroke-width', function(l) { return y(l.value) })
+        .attr('d', linkLine(true))
+        /* .on('mouseover', function() {
+            d3.select(this).attr('class', 'link on')
+        })
+        .on('mouseout', function() {
+            d3.select(this).attr('class', 'link')
+        }) */
+        .transition()
+        .duration(delay)
+        .attr('d', linkLine());
+        
+}
+function updateNext() {
+    if (t < data.length) {
+        update();
+        window.setTimeout(updateNext, delay)
+    }
+}
+update(true);
+updateNext();
+    
+    </script>
+  </body>
+</html>
